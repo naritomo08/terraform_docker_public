@@ -11,7 +11,7 @@ terraform実行コンテナになります。
 ### dockerソースファイル入手
 
 ```bash
-git clone git@github.com:naritomo08/terraform_docker.git terraform
+git clone git@github.com:naritomo08/terraform_docker_public.git terraform
 cd terraform
 ```
 

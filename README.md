@@ -1,4 +1,4 @@
-# terraform_docker
+# terraform_docker_public
 
 terraform実行コンテナになります。
 
@@ -13,6 +13,13 @@ terraform実行コンテナになります。
 ```bash
 git clone https://github.com/naritomo08/terraform_docker_public.git terraform
 cd terraform
+```
+
+後にファイル編集などをして、git通知が煩わしいときは
+作成したフォルダで以下のコマンドを入れる。
+
+```bash
+ rm -rf .git
 ```
 
 ### ソースフォルダ作成

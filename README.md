@@ -11,15 +11,8 @@ terraform実行コンテナになります。
 ### dockerソースファイル入手
 
 ```bash
-git clone https://github.com/naritomo08/terraform_docker_public.git terraform
+git clone git@github.com:naritomo08/terraform_docker.git terraform
 cd terraform
-```
-
-後にファイル編集などをして、git通知が煩わしいときは
-作成したフォルダで以下のコマンドを入れる。
-
-```bash
- rm -rf .git
 ```
 
 ### ソースフォルダ作成
@@ -81,7 +74,7 @@ docker-compose exec terraform ash
 ## terraform操作
 
 terraformコンテナ内で実施すること。
-main.tfを作成したフォルダ内で行うこと。
+*.tfを作成したフォルダ内で行うこと。
 
 ### ワークスペース初期化
 
@@ -136,7 +129,7 @@ vi main.tf
 #### AWS(VPC/サブネット作成)
 
 ```bash
-#AWSを今回は使いますと言う宣言
+#AWSを今回は使いますという宣言
 provider "aws" {
   region = "ap-northeast-1"
 }

@@ -105,7 +105,12 @@ terraform apply
 ### 結果確認
 
 ```bash
-terraform show
+terraform state list
+→作成されたモジュール一覧
+terraform state show <モジュール名>
+→作成したモジュールの参照
+terraform state pull > tmp.tfstate
+→一覧参照
 ```
 
 ### 作成したモジュールの削除

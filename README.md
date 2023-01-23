@@ -49,7 +49,7 @@ ARM_TENANT_ID=
 →AWSの場合、操作ユーザに対応した
  上記の情報を入れる。
 
-gcp管理画面からアクセスjsonキーを入手して、ソースファイルと同じ場所に置く
+gcp管理画面からアクセスjsonキー(gcp.json)を入手して、ソースファイルと同じ場所に置く
 ```
 
 環境変数を取得するための方法は以下を参照してください。
@@ -60,7 +60,7 @@ https://qiita.com/takakuda/items/1e93fb0a7cc542b4adc1
 
 https://dev.classmethod.jp/articles/accesse-google-cloud-with-terraform/
 
-##　開発環境操作
+## 開発環境操作
 
 ### 開発環境コンテナ起動/設定再読み込み
 

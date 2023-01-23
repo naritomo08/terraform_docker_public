@@ -52,11 +52,11 @@ gcp管理画面からアクセスjsonキー(gcp.json)を入手して、ソース
 
 環境変数を取得するための方法は以下を参照してください。
 
-https://qiita.com/SSMU3/items/ce6e291a653f76ddcf79
+[UbuntuでAWS CLIを使えるようにする](https://qiita.com/SSMU3/items/ce6e291a653f76ddcf79)
 
-https://qiita.com/takakuda/items/1e93fb0a7cc542b4adc1
+[Terraformを使い、Azureのインフラ構築してみた](https://qiita.com/takakuda/items/1e93fb0a7cc542b4adc1)
 
-https://dev.classmethod.jp/articles/accesse-google-cloud-with-terraform/
+[TerraformでGoogle Cloudを扱うためのローカル端末環境構築](https://dev.classmethod.jp/articles/accesse-google-cloud-with-terraform/)
 
 ## 開発環境操作
 

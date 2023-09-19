@@ -301,7 +301,7 @@ provider "oci" {
 }
 
 resource "oci_objectstorage_bucket" "example_bucket" {
-  namespace        = "<バケットのネームスペース名>"
+  namespace        = "<テナンシのオブジェクト・ストレージ・ネームスペース>"
   compartment_id   = "${compartment_ocid}"
   name             = "tfstate_bucket"
   access_type      = "NoPublicAccess"

@@ -1,10 +1,14 @@
-# terraform_docker_public
+# terraform_docker
 
 terraform実行コンテナになります。
 
 ## 参考サイト
 
 [dockerでterraform環境を構築して、AWSにVPCを作る。](https://syoblog.com/terraform-environment/)
+
+[Terraformを使い、Azureのインフラ構築してみた](https://qiita.com/takakuda/items/1e93fb0a7cc542b4adc1)
+
+[TerraformでOCI上に仮想サーバを建ててみた](https://blogs.techvan.co.jp/oci/2019/04/08/terraform%e3%81%a7oci%e4%b8%8a%e3%81%ab%e4%bb%ae%e6%83%b3%e3%82%b5%e3%83%bc%e3%83%90%e3%82%92%e5%bb%ba%e3%81%a6%e3%81%a6%e3%81%bf%e3%81%9f/)
 
 ## 開発環境構築方法
 
@@ -47,18 +51,48 @@ ARM_TENANT_ID=
 →AWSの場合、操作ユーザに対応した
  上記の情報を入れる。
 
-gcp管理画面からアクセスjsonキー(gcp.json)を入手して、ソースファイルと同じ場所に置く
+gcp管理画面からアクセスjsonキーを入手して、ソースファイルと同じ場所に置く
 ```
 
 環境変数を取得するための方法は以下を参照してください。
 
-[UbuntuでAWS CLIを使えるようにする](https://qiita.com/SSMU3/items/ce6e291a653f76ddcf79)
+https://qiita.com/SSMU3/items/ce6e291a653f76ddcf79
 
-[Terraformを使い、Azureのインフラ構築してみた](https://qiita.com/takakuda/items/1e93fb0a7cc542b4adc1)
+https://qiita.com/takakuda/items/1e93fb0a7cc542b4adc1
 
-[TerraformでGoogle Cloudを扱うためのローカル端末環境構築](https://dev.classmethod.jp/articles/accesse-google-cloud-with-terraform/)
+https://dev.classmethod.jp/articles/accesse-google-cloud-with-terraform/
 
-## 開発環境操作
+### OCI APIキー作成(OCI利用)
+
+以下のコマンドでOCI APIキーを作成する。
+
+```bash
+cd source
+mkdir apikey
+cd apikey
+openssl genrsa -out id_rsa
+openssl rsa -in id_rsa -pubout -out id_rsa.pem
+ls
+→id_rsa,id_rsa.pemファイルが存在していることを確認する。
+```
+
+### OCID情報の収集（OCI利用）
+
+以下のサイトの"3.OCID情報の収集"を参照し、以下の情報を収集する。
+
+リソースを入れるコンパートメントは予め作成すること。
+
+* テナンシのOCID
+* ユーザーのOCID
+* フィンガープリント
+* コンパートメントのOCID
+* 使用しているリージョンの識別子(例:ap-osaka-1)
+
+参考サイト：
+
+[TerraformでOCI上に仮想サーバを建ててみた](https://blogs.techvan.co.jp/oci/2019/04/08/terraform%e3%81%a7oci%e4%b8%8a%e3%81%ab%e4%bb%ae%e6%83%b3%e3%82%b5%e3%83%bc%e3%83%90%e3%82%92%e5%bb%ba%e3%81%a6%e3%81%a6%e3%81%bf%e3%81%9f/)
+
+##　開発環境操作
 
 ### 開発環境コンテナ起動/設定再読み込み
 
@@ -135,13 +169,15 @@ terraform destroy
 gcpに関してはダウンロードしたjsonファイルをgcp.jsonにして
 ソースと同じ場所に置く。
 
-### main.tf作成
+### ソース作成
 
 sourceフォルダ内で以下の内容のファイルを作成する。
 
 ```bash
 cd source
 vi main.tf
+vi varidate.tf
+→　OCIの場合のみ
 ```
 
 #### AWS(VPC/サブネット作成)
@@ -222,6 +258,53 @@ provider "google" {
 
 resource "google_compute_network" "vpc_network" {
   name = "gcpvpc"
+}
+
+```
+
+#### OCI(バケット作成)
+
+varidate.tf
+
+```bash
+variable "tenancy_ocid" {
+  default = "テナンシのOCID"
+}
+variable "user_ocid" {
+  default = "ユーザーのOCID"
+}
+variable "fingerprint" {
+  default = "フィンガープリント"
+}
+variable "private_key_path" {
+  default = "apikey/id_rsa"
+}
+variable "region" {
+  default = "使用しているリージョンの識別子"
+}
+variable "compartment_ocid" {
+  default = "コンパートメントのOCID"
+}
+
+```
+
+main.tf
+
+```bash
+
+provider "oci" {
+  tenancy_ocid = "${var.tenancy_ocid}"
+  user_ocid = "${var.user_ocid}"
+  fingerprint = "${var.fingerprint}"
+  private_key_path = "${var.private_key_path}"
+  region = "${var.region}"
+}
+
+resource "oci_objectstorage_bucket" "example_bucket" {
+  namespace        = "${var.tenancy_ocid}"
+  compartment_id   = "${compartment_ocid}"
+  name             = "tfstate_bucket"
+  access_type      = "NoPublicAccess"
 }
 
 ```

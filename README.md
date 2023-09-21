@@ -87,6 +87,7 @@ ls
 * フィンガープリント
 * コンパートメントのOCID
 * 使用しているリージョンの識別子(例:ap-osaka-1)
+* テナンシのオブジェクト・ストレージ・ネームスペース
 
 参考サイト：
 
@@ -285,7 +286,9 @@ variable "region" {
 variable "compartment_ocid" {
   default = "コンパートメントのOCID"
 }
-
+variable "tenancy_namespace" {
+  default = "テナンシのオブジェクト・ストレージ・ネームスペース"
+}
 ```
 
 main.tf
@@ -301,7 +304,7 @@ provider "oci" {
 }
 
 resource "oci_objectstorage_bucket" "example_bucket" {
-  namespace        = "<テナンシのオブジェクト・ストレージ・ネームスペース>"
+  namespace        = "${tenancy_namespace}"
   compartment_id   = "${compartment_ocid}"
   name             = "tfstate_bucket"
   access_type      = "NoPublicAccess"

@@ -1,5 +1,6 @@
 services:
   terraform:
+    restart: unless-stopped
     image: hashicorp/terraform:1.16.0
     env_file:
       - .env

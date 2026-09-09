@@ -17,13 +17,14 @@ terraform実行コンテナになります。
 ```bash
 git clone https://github.com/naritomo08/terraform_docker_public.git terraform
 cd terraform
+cp .env.example .env
 ```
 
 後にファイル編集などをして、git通知が煩わしいときは
 作成したフォルダで以下のコマンドを入れる。
 
 ```bash
- rm -rf .git
+rm -rf .git
 ```
 
 ### ソースフォルダ作成
@@ -98,25 +99,25 @@ ls
 ### 開発環境コンテナ起動/設定再読み込み
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 開発環境コンテナ停止
 
 ```bash
-docker-compose stop
+docker compose stop
 ```
 
 ### 開発環境コンテナ破棄
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ### terraformコンテナログイン
 
 ```bash
-docker-compose exec terraform ash
+docker compose exec terraform ash
 ```
 
 ## terraform操作
@@ -315,8 +316,8 @@ resource "oci_objectstorage_bucket" "example_bucket" {
 ### リソース作成
 
 ```bash
-docker-compose up -d
-docker-compose exec terraform ash
+docker compose up -d
+docker compose exec terraform ash
 terraform init
 terraform plan
 terraform apply
@@ -330,7 +331,7 @@ terraformで作成したものは手動ではなく、
 terraformで削除すること。
 
 ```bash
-docker-compose exec terraform ash
+docker compose exec terraform ash
 terraform destroy
 ctrl+c
 →コンソールで削除されていることを確認。
@@ -339,7 +340,8 @@ ctrl+c
 ### 後始末
 
 ```bash
-docker-compose down
+docker compose down
+cd ..
 sudo rm -rf terraform
 ```
 
